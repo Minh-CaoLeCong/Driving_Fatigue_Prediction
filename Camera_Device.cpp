@@ -24,7 +24,7 @@ void Camera_Device_Ini()
 	cap.set(CAP_PROP_FRAME_HEIGHT, CAMERA_DEVICE_HEIGHT);
 
 	if (!cap.isOpened())
-		printf("[INFOR]: Could NOT open camera.\n");
+		printf("[ERROR]: Could NOT open camera.\n");
 
 	return;
 }

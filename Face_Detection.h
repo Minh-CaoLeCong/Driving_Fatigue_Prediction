@@ -7,11 +7,11 @@
 using namespace cv;
 using namespace std;
 
-extern CascadeClassifier face_cascade;
+extern CascadeClassifier Face_Cascade;
 extern string HaarCascade_FaceDetection_FileName_Path;
 
 extern void Face_Detection_HaarCascade_Ini();
-extern void Face_Detection_HaarCascade_Process(Mat img, vector<Rect> &face_detected);
+extern void Face_Detection_HaarCascade_Process(Mat img, vector<Rect> &face_detected_haar);
 
 
 extern void Test_HaarCascade();

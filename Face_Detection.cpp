@@ -6,15 +6,15 @@ using namespace std;
 void detectAndDraw(Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale);
 string cascadeName, nestedCascadeName;
 
-CascadeClassifier face_cascade;
+CascadeClassifier Face_Cascade;
 string HaarCascade_FaceDetection_FileName_Path = "./data/haarcascades/haarcascade_frontalface_default.xml";
 
 void Face_Detection_HaarCascade_Ini()
 {
 	// Load the cascade file
 	printf("[INFOR]: Initializing Haar Cascade face detection.\n");
-	printf("[INFOR]: Loading Haar Cascade xml file.\n");
-	if (!face_cascade.load(HaarCascade_FaceDetection_FileName_Path))
+	printf("[INFOR]: Loading Haar Cascade .xml file.\n");
+	if (!Face_Cascade.load(HaarCascade_FaceDetection_FileName_Path))
 	{
 		printf("[ERROR]: Could NOT load Haar Cascade xml file.\n");
 	}
@@ -24,7 +24,7 @@ void Face_Detection_HaarCascade_Ini()
 
 void Face_Detection_HaarCascade_Process(Mat img, vector<Rect> &face_detected_haar)
 {
-	face_cascade.detectMultiScale(img, face_detected_haar, 1.1, 3, 0, Size(30, 30), Size(150, 150));
+	Face_Cascade.detectMultiScale(img, face_detected_haar, 1.1, 3, 0, Size(30, 30), Size(150, 150));
 
 
 	return;
