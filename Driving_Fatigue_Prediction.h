@@ -2,10 +2,12 @@
 #define DRIVING_FATIGUE_PREDICTION_H
 
 #include "OpenCV440.h"
-#include "Face_Detection.h"
 #include "Camera_Device.h"
 #include "Image_Processing.h"
+#include "Face_Detection.h"
 #include "Face_Landmark.h"
+#include "Face_Tracking.h"
+
 using namespace cv;
 using namespace std;
 

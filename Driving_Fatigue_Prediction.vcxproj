@@ -112,7 +112,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\OpenCV_Master_3_4_3\install\x64\vc15\lib;C:\OpenCV343\opencv\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world343d.lib;opencv_face343d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world343d.lib;opencv_face343d.lib;opencv_tracking343d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,7 +153,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\OpenCV_Master_3_4_3\install\x64\vc15\lib;C:\OpenCV343\opencv\build\x64\vc15\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world343.lib;opencv_face343.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world343.lib;opencv_face343.lib;opencv_tracking343.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -161,6 +161,7 @@
     <ClInclude Include="Driving_Fatigue_Prediction.h" />
     <ClInclude Include="Face_Detection.h" />
     <ClInclude Include="Face_Landmark.h" />
+    <ClInclude Include="Face_Tracking.h" />
     <ClInclude Include="Image_Processing.h" />
     <ClInclude Include="OpenCV440.h" />
     <ClInclude Include="pch.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Driving_Fatigue_Prediction.cpp" />
     <ClCompile Include="Face_Detection.cpp" />
     <ClCompile Include="Face_Landmark.cpp" />
+    <ClCompile Include="Face_Tracking.cpp" />
     <ClCompile Include="Image_Processing.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

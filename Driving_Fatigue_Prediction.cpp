@@ -39,6 +39,32 @@ void Driving_Fatigue_Prediction()
 {
 	Driving_Fatigue_Prediction_Ini();
 
+	//cap >> frame;
+	cap.read(Frame_Original);
+
+	// image processing for haar cascade face detection
+	Frame_ImageProcessing_Face_Detection_HaarCascade = ImageProcessing_Face_Detection_HaarCascade(Frame_Original);
+
+	// detecting face using haar cascade
+	Face_Detection_HaarCascade_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected);
+
+	// draw face to original frame
+	rectangle(Frame_Original, face_detected[0], Scalar(255, 255, 0), 1, 8, 0);
+
+	// init medianflow face tracking
+	face_roi = face_detected[0];
+	Face_Tracking_MedianFlow->init(Frame_ImageProcessing_Face_Detection_HaarCascade, face_roi);
+
+	// detecting face landmarks opencv
+	Face_Landmark_OpenCV_Detection_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected, landmarks);
+
+	// draw face landmarks opencv
+	Face_Landmark_OpenCV_Draw(Frame_Original, landmarks);
+
+	putText(Frame_Original, to_string(int(FPS)), Point(3, 13), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2, 8, 0);
+
+	imshow("Driving Fatigue Prediction", Frame_Original);
+
 	while (1)
 	{
 		// estimate FPS
@@ -51,8 +77,12 @@ void Driving_Fatigue_Prediction()
 		// image processing for haar cascade face detection
 		Frame_ImageProcessing_Face_Detection_HaarCascade = ImageProcessing_Face_Detection_HaarCascade(Frame_Original);
 
-		// detecting face using haar cascade
-		Face_Detection_HaarCascade_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected);
+		//// detecting face using haar cascade
+		//Face_Detection_HaarCascade_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected);
+
+		// medianflow face tracking
+		Face_Tracking_MedianFlow->update(Frame_ImageProcessing_Face_Detection_HaarCascade, face_roi);
+		face_detected[0] = face_roi;
 
 		// draw face to original frame
 		rectangle(Frame_Original, face_detected[0], Scalar(255, 255, 0), 1, 8, 0);
