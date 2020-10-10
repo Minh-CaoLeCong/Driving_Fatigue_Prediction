@@ -13,6 +13,11 @@ Rect2d face_roi; // face detected
 
 vector<vector<Point2f>> landmarks;
 
+char Text_on_Frame[12];
+
+double EAR_Feature; // eye aspect ratio
+double MAR_Feature; // mouth aspect ratio
+
 int main()
 {
 	Driving_Fatigue_Prediction();
@@ -55,14 +60,6 @@ void Driving_Fatigue_Prediction()
 	face_roi = face_detected[0];
 	Face_Tracking_MedianFlow->init(Frame_ImageProcessing_Face_Detection_HaarCascade, face_roi);
 
-	// detecting face landmarks opencv
-	Face_Landmark_OpenCV_Detection_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected, landmarks);
-
-	// draw face landmarks opencv
-	Face_Landmark_OpenCV_Draw(Frame_Original, landmarks);
-
-	putText(Frame_Original, to_string(int(FPS)), Point(3, 13), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2, 8, 0);
-
 	imshow("Driving Fatigue Prediction", Frame_Original);
 
 	while (1)
@@ -93,6 +90,18 @@ void Driving_Fatigue_Prediction()
 		// draw face landmarks opencv
 		Face_Landmark_OpenCV_Draw(Frame_Original, landmarks);
 
+		// estimating eye aspect ratio
+		EAR_Feature = Eye_Aspect_Ratio(landmarks);
+		// display EAR feature on frame
+		sprintf(Text_on_Frame, "EAR: %.2lf", EAR_Feature);
+		putText(Frame_Original, Text_on_Frame, Point(252, 12), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
+
+		// estimating mouth aspect ratio
+		MAR_Feature = Mouth_Aspect_Ratio(landmarks);
+		// display MAR feature on frame
+		sprintf(Text_on_Frame, "MAR: %.2lf", MAR_Feature);
+		putText(Frame_Original, Text_on_Frame, Point(252, 26), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
+
 		// estimate FPS
 		FPS_count_frame++;
 		if (FPS_count_frame == FPS_NUM_FRAMES)
@@ -102,7 +111,9 @@ void Driving_Fatigue_Prediction()
 			FPS_time_elapsed = difftime(FPS_End_time, FPS_Start_time);
 			FPS = FPS_NUM_FRAMES / FPS_time_elapsed;
 		}
-		putText(Frame_Original, to_string(int(FPS)), Point(3, 13), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 255), 2, 8, 0);
+		// display FPS on frame
+		sprintf(Text_on_Frame, "FPS: %.2lf", FPS);
+		putText(Frame_Original, Text_on_Frame, Point(2, 12), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 255), 2, 8, 0);
 
 		imshow("Driving Fatigue Prediction", Frame_Original);
 
