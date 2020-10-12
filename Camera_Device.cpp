@@ -10,7 +10,10 @@ Mat frame;
 double FPS = 0.0;
 double FPS_time_elapsed = 0.0;
 int FPS_count_frame = 0;
-time_t FPS_Start_time, FPS_End_time;
+time_t FPS_Start_time;
+time_t FPS_End_time;
+clock_t Time_Execution_Start1;
+clock_t Time_Execution_End1;
 
 void Camera_Device_Ini()
 {
