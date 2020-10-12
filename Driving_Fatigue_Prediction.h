@@ -36,6 +36,9 @@ extern double MAR_Feature_Threshold;						// mouth aspect ratio threshold
 extern double MAR_Feature_Sample[TAKE_SAMPLE_NUM_FRAMES];	// mouth aspect ratio sample
 extern double MAR_Feature_Sample_Sum;						// mouth aspect ratio sample sum
 
+extern bool Eye_Blink_Checked;
+extern int Eye_Blink_Count;
+
 void Driving_Fatigue_Prediction_Ini();
 void Driving_Fatigue_Prediction();
 extern void Take_Sample(void);

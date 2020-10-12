@@ -27,6 +27,8 @@ double MAR_Feature_Sample_Sum;							// mouth aspect ratio sample sum
 
 double test_time;
 
+bool Eye_Blink_Checked = false;
+int Eye_Blink_Count = 0;
 
 int main()
 {
@@ -35,7 +37,7 @@ int main()
 
 	// take sample
 	Take_Sample();
-
+	
 	Driving_Fatigue_Prediction();
 	
 	
@@ -107,15 +109,14 @@ void Driving_Fatigue_Prediction()
 
 		// estimating eye aspect ratio
 		EAR_Feature = Eye_Aspect_Ratio(landmarks);
-		// display EAR feature on frame
-		sprintf(Text_on_Frame, "EAR: %.2lf", EAR_Feature);
-		putText(Frame_Original, Text_on_Frame, Point(252, 12), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
+
+		// count eye blink
+		Eye_Blink_Checked = Eye_Blink(EAR_Feature, EAR_Feature_Threshold);
+		if (Eye_Blink_Checked)
+			Eye_Blink_Count++;
 
 		// estimating mouth aspect ratio
 		MAR_Feature = Mouth_Aspect_Ratio(landmarks);
-		// display MAR feature on frame
-		sprintf(Text_on_Frame, "MAR: %.2lf", MAR_Feature);
-		putText(Frame_Original, Text_on_Frame, Point(252, 26), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
 
 		// estimate FPS
 		/*FPS_count_frame++;
@@ -129,6 +130,18 @@ void Driving_Fatigue_Prediction()
 		Time_Execution_End1 = clock();
 		test_time = double(Time_Execution_End1 - Time_Execution_Start1) / double(CLOCKS_PER_SEC);
 		FPS = 1.0 / test_time;
+
+		// display EAR feature on frame
+		sprintf(Text_on_Frame, "EAR: %.2lf", EAR_Feature);
+		putText(Frame_Original, Text_on_Frame, Point(252, 12), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
+
+		// display MAR feature on frame
+		sprintf(Text_on_Frame, "MAR: %.2lf", MAR_Feature);
+		putText(Frame_Original, Text_on_Frame, Point(252, 32), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
+
+		// display num of eye blink
+		sprintf(Text_on_Frame, "BLINK: %d", Eye_Blink_Count);
+		putText(Frame_Original, Text_on_Frame, Point(252, 52), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
 
 		// display FPS on frame
 		sprintf(Text_on_Frame, "FPS: %.2lf", FPS);

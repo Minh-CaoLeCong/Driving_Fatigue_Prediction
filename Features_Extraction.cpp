@@ -84,3 +84,23 @@ double Mouth_Aspect_Ratio(vector<vector<Point2f>> landmarks)
 
 	return Mouth_Aspect_Ratio_Value;
 }
+
+bool Eye_Blink(double EAR_Feature_Value, double threshold)
+{
+	static bool Eye_Blink_State = false;
+
+	if ((EAR_Feature_Value < threshold) && (!Eye_Blink_State))
+	{
+		Eye_Blink_State = true;
+		return true;
+	}
+	else if ((EAR_Feature_Value < threshold) && (Eye_Blink_State))
+	{
+		return false;
+	}
+	else
+	{
+		Eye_Blink_State = false;
+		return false;
+	}
+}
