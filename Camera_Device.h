@@ -12,11 +12,12 @@
 // estimate FPS
 #define FPS_NUM_FRAMES 60
 
-
 using namespace cv;
 
 extern VideoCapture cap;
+
 extern Mat frame;
+
 
 // estimate FPS
 extern double FPS;
@@ -30,8 +31,6 @@ extern clock_t Time_Execution_End1;
 extern void Camera_Device_Ini();
 
 extern void Camera_Device_Test();
-
-
 
 
 

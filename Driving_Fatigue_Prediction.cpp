@@ -6,6 +6,7 @@ using namespace cv::face;
 
 Mat Frame_Original;
 Mat Frame_ImageProcessing_Face_Detection_HaarCascade; // image processing for haar cascade face detection
+Mat Take_Sample_Frames[TAKE_SAMPLE_NUM_FRAMES];
 
 vector<Rect> face_detected;	// face detection
 
@@ -15,17 +16,29 @@ vector<vector<Point2f>> landmarks;
 
 char Text_on_Frame[12];
 
-double EAR_Feature; // eye aspect ratio
-double MAR_Feature; // mouth aspect ratio
+double EAR_Feature;										// eye aspect ratio
+double EAR_Feature_Threshold;							// eye aspect ratio threshold
+double EAR_Feature_Sample[TAKE_SAMPLE_NUM_FRAMES] = {}; // eye aspect ratio sample
+double EAR_Feature_Sample_Sum;							// eye aspect ratio sample sum
+double MAR_Feature;										// mouth aspect ratio
+double MAR_Feature_Threshold;							// mouth aspect ratio threshold
+double MAR_Feature_Sample[TAKE_SAMPLE_NUM_FRAMES] = {}; // mouth aspect ratio sample
+double MAR_Feature_Sample_Sum;							// mouth aspect ratio sample sum
+
 double test_time;
+
 
 int main()
 {
+	// init
+	Driving_Fatigue_Prediction_Ini();
+
+	// take sample
+	Take_Sample();
+
 	Driving_Fatigue_Prediction();
 	
 	
-
-
 	return 0;
 }
 
@@ -43,8 +56,6 @@ void Driving_Fatigue_Prediction_Ini()
 
 void Driving_Fatigue_Prediction()
 {
-	Driving_Fatigue_Prediction_Ini();
-
 	//cap >> frame;
 	cap.read(Frame_Original);
 
@@ -139,4 +150,61 @@ void Driving_Fatigue_Prediction()
 	}
 
 	return;
+}
+
+void Take_Sample(void)
+{
+	// interact with user
+	{
+		printf("[INFOR]: STARTING TAKE SAMPLE PROCESSING: \n");
+		printf("[INFOR]: Now, please look at the camera and open your eyes in normal size \n");
+		printf("[NOTE]: There have to only one person in front of the camera \n");
+		printf("[INFOR]: If you're ready, press ENTER to continue. \n");
+		cin.get();
+	}
+
+	// capture images to take sample
+	printf("[INFOR]: Capturing images... \n");
+	for (int i = 0; i < TAKE_SAMPLE_NUM_FRAMES; i++)
+	{
+		cap.read(Take_Sample_Frames[i]);
+		// check capture frame
+		if (Take_Sample_Frames[i].empty()) 
+		{ 
+			printf("[INFOR]: Could NOT capture frame \n");
+			break; 
+		}
+	}
+
+	// taking sample
+	printf("[INFOR]: Taking sample... \n");
+	for (int i = 0; i < TAKE_SAMPLE_NUM_FRAMES; i++)
+	{
+		// preprocessing image
+		Mat Sample_Frame = ImageProcessing_Face_Detection_HaarCascade(Take_Sample_Frames[i]);
+
+		// detecting face using haar cascade
+		Face_Detection_HaarCascade_Process(Sample_Frame, face_detected);
+
+		// detecting face landmarks opencv
+		Face_Landmark_OpenCV_Detection_Process(Sample_Frame, face_detected, landmarks);
+
+		// estimating eye aspect ratio
+		EAR_Feature_Sample[i] = Eye_Aspect_Ratio(landmarks);
+		
+		// estimating mouth aspect ratio
+		MAR_Feature_Sample[i] = Mouth_Aspect_Ratio(landmarks);
+
+		printf("[INFOR][%d] EAR: %lf\tMAR: %lf\n", i, EAR_Feature_Sample[i], MAR_Feature_Sample[i]);
+
+		EAR_Feature_Sample_Sum += EAR_Feature_Sample[i];
+		MAR_Feature_Sample_Sum += MAR_Feature_Sample[i];
+	}
+
+	// estimate eye aspect ratio threshold
+	EAR_Feature_Threshold = (EAR_Feature_Sample_Sum / TAKE_SAMPLE_NUM_FRAMES) - 0.08;
+	MAR_Feature_Threshold = (MAR_Feature_Sample_Sum / TAKE_SAMPLE_NUM_FRAMES) + 0.1;
+
+	printf("[INFOR] EAR_Threshold: %lf\tMAR_Threshold: %lf\n", EAR_Feature_Threshold, MAR_Feature_Threshold);
+	printf("[INFOR]: END TAKE SAMPLE PROCESSING.\n");
 }
