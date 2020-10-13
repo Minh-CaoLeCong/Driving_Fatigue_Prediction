@@ -15,18 +15,27 @@ using namespace std;
 // take sample
 #define TAKE_SAMPLE_NUM_FRAMES 10 // number of frames are captured to take sample
 
-extern Mat Frame_Original;
+#define TIME_PERIOD 10
+
+extern Mat Frame_Original; // capture from camera
 extern Mat Frame_ImageProcessing_Face_Detection_HaarCascade;
 extern Mat Take_Sample_Frames[TAKE_SAMPLE_NUM_FRAMES];
 
-extern vector<Rect> face_detected;
+extern vector<Rect> face_detected; // face detected by haar cascade
 
-extern Rect2d face_roi; // face detected
+extern Rect2d face_roi; // face detected by tracking
 
 extern vector<vector<Point2f>> landmarks;
 
 extern char Text_on_Frame[12];
 
+// estimate time processing per frame
+extern double Time_Processing_per_Frame;
+
+extern double Time_Period_Total;
+extern bool Time_Period_Checked;
+
+// features
 extern double EAR_Feature;									// eye aspect ratio
 extern double EAR_Feature_Threshold;						// eye aspect ratio threshold
 extern double EAR_Feature_Sample[TAKE_SAMPLE_NUM_FRAMES];	// eye aspect ratio sample
@@ -41,6 +50,7 @@ extern int Eye_Blink_Count;
 
 void Driving_Fatigue_Prediction_Ini();
 void Driving_Fatigue_Prediction();
-extern void Take_Sample(void);
+void Take_Sample(void);
+void Display(void);
 
 #endif // !DRIVING_FATIGUE_PREDICTION_H
