@@ -8,6 +8,8 @@
 #include "Face_Landmark.h"
 #include "Face_Tracking.h"
 #include "Features_Extraction.h"
+#include "Import.h"
+#include "Export.h"
 
 using namespace cv;
 using namespace std;
@@ -17,9 +19,13 @@ using namespace std;
 
 #define TIME_PERIOD 10
 
+#define FACE_TRACKING_CHECKED 0 // 1: enable face tracking
+#define FRAME_SHOW_ORIGINAL 0	// 1: show original frame
+
 extern Mat Frame_Original; // capture from camera
 extern Mat Frame_ImageProcessing_Face_Detection_HaarCascade;
 extern Mat Take_Sample_Frames[TAKE_SAMPLE_NUM_FRAMES];
+extern Mat Frame_Show;
 
 extern vector<Rect> face_detected; // face detected by haar cascade
 

@@ -159,22 +159,26 @@
   <ItemGroup>
     <ClInclude Include="Camera_Device.h" />
     <ClInclude Include="Driving_Fatigue_Prediction.h" />
+    <ClInclude Include="Export.h" />
     <ClInclude Include="Face_Detection.h" />
     <ClInclude Include="Face_Landmark.h" />
     <ClInclude Include="Face_Tracking.h" />
     <ClInclude Include="Features_Extraction.h" />
     <ClInclude Include="Image_Processing.h" />
+    <ClInclude Include="Import.h" />
     <ClInclude Include="OpenCV440.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera_Device.cpp" />
     <ClCompile Include="Driving_Fatigue_Prediction.cpp" />
+    <ClCompile Include="Export.cpp" />
     <ClCompile Include="Face_Detection.cpp" />
     <ClCompile Include="Face_Landmark.cpp" />
     <ClCompile Include="Face_Tracking.cpp" />
     <ClCompile Include="Features_Extraction.cpp" />
     <ClCompile Include="Image_Processing.cpp" />
+    <ClCompile Include="Import.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

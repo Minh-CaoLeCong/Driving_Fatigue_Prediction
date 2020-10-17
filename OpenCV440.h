@@ -6,5 +6,8 @@
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/videoio.hpp"
 #include <iostream>
+#include <string>
+#include <vector>
+#include <stdlib.h>
 
 #endif // !OPENCV440_H

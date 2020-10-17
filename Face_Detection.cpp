@@ -2,12 +2,13 @@
 
 using namespace cv;
 using namespace std;
+using namespace cv::dnn;
 
 void detectAndDraw(Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale);
 string cascadeName, nestedCascadeName;
 
 CascadeClassifier Face_Cascade;
-string HaarCascade_FaceDetection_FileName_Path = "./data/haarcascades/haarcascade_frontalface_default.xml";
+const string HaarCascade_FaceDetection_FileName_Path = "./data/haarcascades/haarcascade_frontalface_default.xml";
 
 void Face_Detection_HaarCascade_Ini()
 {
