@@ -1,6 +1,7 @@
 #ifndef DRIVING_FATIGUE_PREDICTION_H
 #define DRIVING_FATIGUE_PREDICTION_H
 
+#include "Preprocessor_Configuration.h"
 #include "OpenCV440.h"
 #include "Camera_Device.h"
 #include "Image_Processing.h"
@@ -19,7 +20,6 @@ using namespace std;
 
 #define TIME_PERIOD 10
 
-#define FACE_TRACKING_CHECKED 0 // 1: enable face tracking
 #define FRAME_SHOW_ORIGINAL 0	// 1: show original frame
 
 extern Mat Frame_Original; // capture from camera

@@ -168,6 +168,7 @@
     <ClInclude Include="Import.h" />
     <ClInclude Include="OpenCV440.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Preprocessor_Configuration.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera_Device.cpp" />

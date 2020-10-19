@@ -1,6 +1,7 @@
 #ifndef CAMERA_DEVICE_H
 #define CAMERA_DEVICE_H
 
+#include "Preprocessor_Configuration.h"
 #include "OpenCV440.h"
 #include <time.h>
 

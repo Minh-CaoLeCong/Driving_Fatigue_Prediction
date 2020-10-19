@@ -1,6 +1,7 @@
 #ifndef IMAGE_PROCESSING_H
 #define IMAGE_PROCESSING_H
 
+#include "Preprocessor_Configuration.h"
 #include "OpenCV440.h"
 
 using namespace cv;

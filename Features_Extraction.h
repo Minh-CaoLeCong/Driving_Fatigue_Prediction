@@ -1,6 +1,7 @@
 #ifndef FEATURES_EXTRACTION_H
 #define FEATURES_EXTRACTION_H
 
+#include "Preprocessor_Configuration.h"
 #include "OpenCV440.h"
 
 using namespace cv;

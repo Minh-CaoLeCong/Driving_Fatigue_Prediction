@@ -5,11 +5,12 @@ using namespace std;
 using namespace cv::face;
 
 Ptr<Facemark> FaceMark_OpenCV = FacemarkLBF::create();
-string Face_Landmark_OpenCV_FileName_Path = "./data/facemark_opencv/lbfmodel.yaml";
 bool Face_Landmark_OpenCV_Detection_Check = false;
 
 void Face_Landmark_OpenCV_Ini()
 {
+	string Face_Landmark_OpenCV_FileName_Path = "./data/facemark_opencv/lbfmodel.yaml";
+
 	// Load landmark detector OpenCV
 	printf("[INFOR]: Initializing face landmark.\n");
 	printf("[INFOR]: Loading face landmark OpenCV .yaml file.\n");
