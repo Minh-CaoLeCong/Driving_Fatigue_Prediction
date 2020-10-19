@@ -109,10 +109,10 @@ void Driving_Fatigue_Prediction()
 			Face_Detection_DNN_OpenCV_Caffe_Process(Frame_Original, face_detected);
 #endif
 
-//#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
-//			// dnn face detection OpenCV
-//			Face_Detection_DNN_OpenCV_TensorFlow_Process(Frame_Original, face_detected);
-//#endif
+#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
+			// dnn face detection OpenCV
+			Face_Detection_DNN_OpenCV_TensorFlow_Process(Frame_Original, face_detected);
+#endif
 
 #ifdef FACE_TRACKING
 			// init medianflow face tracking
@@ -214,10 +214,10 @@ void Driving_Fatigue_Prediction()
 			Face_Detection_DNN_OpenCV_Caffe_Process(Frame_Original, face_detected);
 #endif
 
-//#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
-//			// dnn face detection OpenCV
-//			Face_Detection_DNN_OpenCV_TensorFlow_Process(Frame_Original, face_detected);
-//#endif
+#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
+			// dnn face detection OpenCV
+			Face_Detection_DNN_OpenCV_TensorFlow_Process(Frame_Original, face_detected);
+#endif
 
 #endif // !FACE_TRACKING
 
