@@ -54,9 +54,7 @@ void Driving_Fatigue_Prediction_Ini()
 	// init camera device
 	Camera_Device_Ini();
 
-#ifdef FACE_DETECTION_HAAR_CASCADE
 	Face_Detection_HaarCascade_Ini(); // init haar cascade facedetection
-#endif
 
 #ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
 	Face_Detection_DNN_OpenCV_Caffe_Ini();
@@ -96,32 +94,43 @@ void Driving_Fatigue_Prediction()
 			//cap >> frame;
 			cap.read(Frame_Original);
 
+#ifdef FACE_DETECTION_HAAR_CASCADE
 			// image processing for haar cascade face detection
 			Frame_ImageProcessing_Face_Detection_HaarCascade = ImageProcessing_Face_Detection_HaarCascade(Frame_Original);
-
-//#ifdef FACE_DETECTION_HAAR_CASCADE
-//			// detecting face using haar cascade
-//			Face_Detection_HaarCascade_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected);
-//#endif
-
-#ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
-			// dnn face detection OpenCV
-			Face_Detection_DNN_OpenCV_Caffe_Process(Frame_Original, face_detected);
-#endif
-
-#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
-			// dnn face detection OpenCV
-			Face_Detection_DNN_OpenCV_TensorFlow_Process(Frame_Original, face_detected);
-#endif
-
+			// detecting face using haar cascade
+			Face_Detection_HaarCascade_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected);
 #ifdef FACE_TRACKING
 			// init medianflow face tracking
 			face_roi = face_detected[0];
 			Face_Tracking_MedianFlow->init(Frame_ImageProcessing_Face_Detection_HaarCascade, face_roi);
 #endif
-			
 			// detecting face landmarks opencv
 			Face_Landmark_OpenCV_Detection_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected, landmarks);
+#endif
+
+#ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
+			// dnn face detection OpenCV
+			Face_Detection_DNN_OpenCV_Caffe_Process(Frame_Original, face_detected);
+#ifdef FACE_TRACKING
+			// init medianflow face tracking
+			face_roi = face_detected[0];
+			Face_Tracking_MedianFlow->init(Frame_Original, face_roi);
+#endif
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_Original, face_detected, landmarks);
+#endif
+
+#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
+			// dnn face detection OpenCV
+			Face_Detection_DNN_OpenCV_TensorFlow_Process(Frame_Original, face_detected);
+#ifdef FACE_TRACKING
+			// init medianflow face tracking
+			face_roi = face_detected[0];
+			Face_Tracking_MedianFlow->init(Frame_Original, face_roi);
+#endif
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_Original, face_detected, landmarks);
+#endif
 
 			// estimating eye aspect ratio
 			EAR_Feature = Eye_Aspect_Ratio(landmarks);
@@ -134,15 +143,21 @@ void Driving_Fatigue_Prediction()
 			// estimating mouth aspect ratio
 			MAR_Feature = Mouth_Aspect_Ratio(landmarks);
 
-			if (FRAME_SHOW_ORIGINAL)
-			{
-				Frame_Show = Frame_Original;
-			}
-			else
-			{
+#ifdef FACE_DETECTION_HAAR_CASCADE
+			if (FRAME_SHOW_IMAGE_PROCESSING)
 				Frame_Show = Frame_ImageProcessing_Face_Detection_HaarCascade;
-			}
+			else
+				Frame_Show = Frame_Original;
+#endif
 
+#ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
+			Frame_Show = Frame_Original;
+#endif
+
+#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
+			Frame_Show = Frame_Original;
+#endif
+			// display information on frame
 			Display();
 
 			// estimate FPS
@@ -195,34 +210,56 @@ void Driving_Fatigue_Prediction()
 			//cap >> frame;
 			cap.read(Frame_Original);
 
+#ifdef FACE_TRACKING
+
+#ifdef FACE_DETECTION_HAAR_CASCADE
 			// image processing for haar cascade face detection
 			Frame_ImageProcessing_Face_Detection_HaarCascade = ImageProcessing_Face_Detection_HaarCascade(Frame_Original);
-
-#ifdef FACE_TRACKING
 			// medianflow face tracking
 			Face_Tracking_MedianFlow->update(Frame_ImageProcessing_Face_Detection_HaarCascade, face_roi);
 			face_detected[0] = face_roi;
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected, landmarks);
+#endif
+#ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
+			// medianflow face tracking
+			Face_Tracking_MedianFlow->update(Frame_Original, face_roi);
+			face_detected[0] = face_roi;
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_Original, face_detected, landmarks);
+#endif
+#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
+			// medianflow face tracking
+			Face_Tracking_MedianFlow->update(Frame_Original, face_roi);
+			face_detected[0] = face_roi;
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_Original, face_detected, landmarks);
+#endif
+
 #else
 
-//#ifdef FACE_DETECTION_HAAR_CASCADE
-//			// detecting face using haar cascade
-//			Face_Detection_HaarCascade_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected);
-//#endif
-
+#ifdef FACE_DETECTION_HAAR_CASCADE
+			// image processing for haar cascade face detection
+			Frame_ImageProcessing_Face_Detection_HaarCascade = ImageProcessing_Face_Detection_HaarCascade(Frame_Original);
+			// detecting face using haar cascade
+			Face_Detection_HaarCascade_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected);
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected, landmarks);
+#endif
 #ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
 			// dnn face detection OpenCV
 			Face_Detection_DNN_OpenCV_Caffe_Process(Frame_Original, face_detected);
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_Original, face_detected, landmarks);
 #endif
-
 #ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
 			// dnn face detection OpenCV
 			Face_Detection_DNN_OpenCV_TensorFlow_Process(Frame_Original, face_detected);
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Frame_Original, face_detected, landmarks);
 #endif
 
 #endif // !FACE_TRACKING
-
-			// detecting face landmarks opencv
-			Face_Landmark_OpenCV_Detection_Process(Frame_ImageProcessing_Face_Detection_HaarCascade, face_detected, landmarks);
 
 			// estimating eye aspect ratio
 			EAR_Feature = Eye_Aspect_Ratio(landmarks);
@@ -235,14 +272,20 @@ void Driving_Fatigue_Prediction()
 			// estimating mouth aspect ratio
 			MAR_Feature = Mouth_Aspect_Ratio(landmarks);
 
-			if (FRAME_SHOW_ORIGINAL)
-			{
-				Frame_Show = Frame_Original;
-			}
-			else
-			{
+#ifdef FACE_DETECTION_HAAR_CASCADE
+			if (FRAME_SHOW_IMAGE_PROCESSING)
 				Frame_Show = Frame_ImageProcessing_Face_Detection_HaarCascade;
-			}
+			else
+				Frame_Show = Frame_Original;
+#endif
+
+#ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
+			Frame_Show = Frame_Original;
+#endif
+
+#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
+			Frame_Show = Frame_Original;
+#endif
 
 			Display();
 
@@ -321,42 +364,58 @@ void Take_Sample(void)
 	printf("[INFOR]: Taking sample... \n");
 	for (int i = 0; i < TAKE_SAMPLE_NUM_FRAMES; i++)
 	{
-		// preprocessing image
-		Mat Sample_Frame = ImageProcessing_Face_Detection_HaarCascade(Take_Sample_Frames[i]);
+		if (i == 0)
+		{
+			// preprocessing image
+			Mat Sample_Frame = ImageProcessing_Face_Detection_HaarCascade(Take_Sample_Frames[i]);
 
+			// detecting face using haar cascade
+			Face_Detection_HaarCascade_Process(Sample_Frame, face_detected);
+
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Sample_Frame, face_detected, landmarks);
+		}
+		else
+		{
 #ifdef FACE_DETECTION_HAAR_CASCADE
-		// detecting face using haar cascade
-		Face_Detection_HaarCascade_Process(Sample_Frame, face_detected);
+			// preprocessing image
+			Mat Sample_Frame = ImageProcessing_Face_Detection_HaarCascade(Take_Sample_Frames[i]);
+			// detecting face using haar cascade
+			Face_Detection_HaarCascade_Process(Sample_Frame, face_detected);
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Sample_Frame, face_detected, landmarks);
 #endif
 
-//#ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
-//		// dnn face detection OpenCV
-//		Face_Detection_DNN_OpenCV_Caffe_Process(Take_Sample_Frames[i], face_detected);
-//#endif
-//
-//#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
-//		// dnn face detection OpenCV
-//		Face_Detection_DNN_OpenCV_TensorFlow_Process(Take_Sample_Frames[i], face_detected);
-//#endif
+#ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
+			// dnn face detection OpenCV
+			Face_Detection_DNN_OpenCV_Caffe_Process(Take_Sample_Frames[i], face_detected);
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Take_Sample_Frames[i], face_detected, landmarks);
+#endif
+			
+#ifdef FACE_DETECTION_DNN_TENSORFLOW_OPENCV
+			// dnn face detection OpenCV
+			Face_Detection_DNN_OpenCV_TensorFlow_Process(Take_Sample_Frames[i], face_detected);
+			// detecting face landmarks opencv
+			Face_Landmark_OpenCV_Detection_Process(Take_Sample_Frames[i], face_detected, landmarks);
+#endif
 
-		// detecting face landmarks opencv
-		Face_Landmark_OpenCV_Detection_Process(Sample_Frame, face_detected, landmarks);
+			// estimating eye aspect ratio
+			EAR_Feature_Sample[i] = Eye_Aspect_Ratio(landmarks);
 
-		// estimating eye aspect ratio
-		EAR_Feature_Sample[i] = Eye_Aspect_Ratio(landmarks);
-		
-		// estimating mouth aspect ratio
-		MAR_Feature_Sample[i] = Mouth_Aspect_Ratio(landmarks);
+			// estimating mouth aspect ratio
+			MAR_Feature_Sample[i] = Mouth_Aspect_Ratio(landmarks);
 
-		printf("[INFOR][%d] EAR: %lf\tMAR: %lf\n", i, EAR_Feature_Sample[i], MAR_Feature_Sample[i]);
+			printf("[INFOR][%d] EAR: %lf\tMAR: %lf\n", i, EAR_Feature_Sample[i], MAR_Feature_Sample[i]);
 
-		EAR_Feature_Sample_Sum += EAR_Feature_Sample[i];
-		MAR_Feature_Sample_Sum += MAR_Feature_Sample[i];
+			EAR_Feature_Sample_Sum += EAR_Feature_Sample[i];
+			MAR_Feature_Sample_Sum += MAR_Feature_Sample[i];
+		}
 	}
 
 	// estimate eye aspect ratio threshold
-	EAR_Feature_Threshold = (EAR_Feature_Sample_Sum / TAKE_SAMPLE_NUM_FRAMES) - 0.08;
-	MAR_Feature_Threshold = (MAR_Feature_Sample_Sum / TAKE_SAMPLE_NUM_FRAMES) + 0.1;
+	EAR_Feature_Threshold = (EAR_Feature_Sample_Sum / (TAKE_SAMPLE_NUM_FRAMES - 1)) - 0.08;
+	MAR_Feature_Threshold = (MAR_Feature_Sample_Sum / (TAKE_SAMPLE_NUM_FRAMES - 1)) + 0.1;
 
 	printf("[INFOR] EAR_Threshold: %lf\tMAR_Threshold: %lf\n", EAR_Feature_Threshold, MAR_Feature_Threshold);
 	printf("[INFOR]: END TAKE SAMPLE PROCESSING.\n");
@@ -426,6 +485,8 @@ void Display(void)
 //
 //		int frameHeight = frameOpenCVDNN.rows;
 //		int frameWidth = frameOpenCVDNN.cols;
+//
+//		//frameOpenCVDNN = ImageProcessing_Face_Detection_HaarCascade(frameOpenCVDNN);
 //
 //#ifdef CAFFE
 //		Mat inputBlob = blobFromImage(frameOpenCVDNN, inScaleFactor, Size(inWidth, inHeight), meanVal, false, false);

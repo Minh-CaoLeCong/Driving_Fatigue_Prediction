@@ -11,10 +11,8 @@ using namespace std;
 using namespace cv::dnn; // dnn face detection OpenCV
 
 // haar cascade face detection
-#ifdef FACE_DETECTION_HAAR_CASCADE
 extern void Face_Detection_HaarCascade_Ini();
 extern void Face_Detection_HaarCascade_Process(Mat img, vector<Rect> &face_detected_haar);
-#endif
 
 //extern void Test_HaarCascade();
 //extern void detectAndDraw(Mat& img, CascadeClassifier& cascade, CascadeClassifier& nestedCascade, double scale);

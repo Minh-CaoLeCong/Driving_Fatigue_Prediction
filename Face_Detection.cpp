@@ -4,7 +4,6 @@ using namespace cv;
 using namespace std;
 using namespace cv::dnn;
 
-#ifdef FACE_DETECTION_HAAR_CASCADE
 CascadeClassifier Face_Cascade; // haar cascade face detection
 
 void Face_Detection_HaarCascade_Ini()
@@ -28,7 +27,6 @@ void Face_Detection_HaarCascade_Process(Mat img, vector<Rect> &face_detected_haa
 
 	return;
 }
-#endif // !FACE_DETECTION_HAAR_CASCADE
 
 #ifdef FACE_DETECTION_DNN_CAFFE_OPENCV
 Net net; // dnn face detection OpenCV

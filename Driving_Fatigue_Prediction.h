@@ -16,11 +16,9 @@ using namespace cv;
 using namespace std;
 
 // take sample
-#define TAKE_SAMPLE_NUM_FRAMES 10 // number of frames are captured to take sample
+#define TAKE_SAMPLE_NUM_FRAMES 11 // number of frames are captured to take sample
 
 #define TIME_PERIOD 10
-
-#define FRAME_SHOW_ORIGINAL 0	// 1: show original frame
 
 extern Mat Frame_Original; // capture from camera
 extern Mat Frame_ImageProcessing_Face_Detection_HaarCascade;

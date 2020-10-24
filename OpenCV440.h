@@ -10,4 +10,8 @@
 #include <vector>
 #include <stdlib.h>
 
+// GPU
+#include <opencv2/cudaarithm.hpp>
+
+
 #endif // !OPENCV440_H
