@@ -19,7 +19,6 @@ extern VideoCapture cap;
 
 extern Mat frame;
 
-
 // estimate FPS
 extern double FPS;
 extern double FPS_time_elapsed;

@@ -35,6 +35,9 @@ int Eye_Blink_Count = 0;
 double Time_Period_Total = 0.0;
 bool Time_Period_Checked = true;
 
+// Define the codec and create VideoWriter object.The output is stored in 'outcpp.avi' file. 
+VideoWriter video("./video/outcpp.avi", VideoWriter::fourcc('M', 'J', 'P', 'G'), 10, Size(CAMERA_DEVICE_WIDTH, CAMERA_DEVICE_HEIGHT));
+
 int main()
 {
 	// init
@@ -81,8 +84,8 @@ void Driving_Fatigue_Prediction()
 			Time_Period_Total = 0.0;
 			Eye_Blink_Count = 0;
 
-			//FPS_Start_time = time(NULL);
-			//cout << ctime(&FPS_Start_time) << endl;
+			FPS_Start_time = time(NULL);
+			cout << ctime(&FPS_Start_time) << endl;
 
 			// estimate FPS
 			/*if (FPS_count_frame == 0)
@@ -91,8 +94,11 @@ void Driving_Fatigue_Prediction()
 			}*/
 			Time_Execution_Start1 = clock();
 
-			//cap >> frame;
+			//cap >> Frame_Original;
 			cap.read(Frame_Original);
+
+			// Write the frame into the file 'outcpp.avi'
+			video.write(Frame_Original);
 
 #ifdef FACE_DETECTION_HAAR_CASCADE
 			// image processing for haar cascade face detection
@@ -195,8 +201,10 @@ void Driving_Fatigue_Prediction()
 
 			imshow("Driving Fatigue Prediction", Frame_Show);
 
-			waitKey(1);
-			//if (waitKey(30) >= 0) break;
+			// Press  ESC on keyboard to  exit
+			char c = (char)waitKey(1);
+			if (c == 27)
+				break;
 		}
 		else
 		{
@@ -207,8 +215,11 @@ void Driving_Fatigue_Prediction()
 			}*/
 			Time_Execution_Start1 = clock();
 			
-			//cap >> frame;
+			//cap >> Frame_Original;
 			cap.read(Frame_Original);
+
+			// Write the frame into the file 'outcpp.avi'
+			video.write(Frame_Original);
 
 #ifdef FACE_TRACKING
 
@@ -328,10 +339,19 @@ void Driving_Fatigue_Prediction()
 
 			imshow("Driving Fatigue Prediction", Frame_Show);
 
-			waitKey(1);
-			//if (waitKey(30) >= 0) break;
+			// Press  ESC on keyboard to  exit
+			char c = (char)waitKey(1);
+			if (c == 27)
+				break;
 		}
 	}
+
+	// When everything done, release the video capture and write object
+	cap.release();
+	video.release();
+
+	// Closes all the windows
+	destroyAllWindows();
 
 	return;
 }
