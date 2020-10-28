@@ -14,6 +14,7 @@
 #define FPS_NUM_FRAMES 60
 
 using namespace cv;
+using namespace std;
 
 extern VideoCapture cap;
 

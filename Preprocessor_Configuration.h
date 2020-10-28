@@ -7,8 +7,16 @@
 //#define FACE_DETECTION_DNN_TENSORFLOW_OPENCV
 
 // face tracking
-#define FACE_TRACKING
+//#define FACE_TRACKING
 
+// save video
+#define VIDEO_WRITER
+#define VIDEO_WRITER_FPS 10
+
+// save features extraction
+#define FEATURES_EXTRACTION_FILE_TXT
+
+// show image processing
 #define FRAME_SHOW_IMAGE_PROCESSING 0	// 1: show image processing
 
 #endif // !PREPROCESSOR_CONFIGURATION_H

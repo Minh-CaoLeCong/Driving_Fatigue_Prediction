@@ -25,6 +25,8 @@ extern Mat Frame_ImageProcessing_Face_Detection_HaarCascade;
 extern Mat Take_Sample_Frames[TAKE_SAMPLE_NUM_FRAMES];
 extern Mat Frame_Show;
 
+extern int frame_count;
+
 extern vector<Rect> face_detected; // face detected by haar cascade
 
 extern Rect2d face_roi; // face detected by tracking
@@ -56,5 +58,6 @@ void Driving_Fatigue_Prediction_Ini();
 void Driving_Fatigue_Prediction();
 void Take_Sample(void);
 void Display(void);
+void Reset_Variables(void);
 
 #endif // !DRIVING_FATIGUE_PREDICTION_H

@@ -10,6 +10,8 @@ Mat Frame_ImageProcessing_Face_Detection_HaarCascade; // image processing for ha
 Mat Take_Sample_Frames[TAKE_SAMPLE_NUM_FRAMES];
 Mat Frame_Show;
 
+int frame_count = 0;
+
 vector<Rect> face_detected;	// face detection
 
 Rect2d face_roi; // face detected
@@ -34,9 +36,6 @@ int Eye_Blink_Count = 0;
 
 double Time_Period_Total = 0.0;
 bool Time_Period_Checked = true;
-
-// Define the codec and create VideoWriter object.The output is stored in 'outcpp.avi' file. 
-VideoWriter video("./video/outcpp.avi", VideoWriter::fourcc('M', 'J', 'P', 'G'), 10, Size(CAMERA_DEVICE_WIDTH, CAMERA_DEVICE_HEIGHT));
 
 int main()
 {
@@ -80,12 +79,23 @@ void Driving_Fatigue_Prediction()
 	{
 		if (Time_Period_Checked)
 		{
-			Time_Period_Checked = false;
-			Time_Period_Total = 0.0;
-			Eye_Blink_Count = 0;
+			Reset_Variables();
 
-			FPS_Start_time = time(NULL);
-			cout << ctime(&FPS_Start_time) << endl;
+#ifdef VIDEO_WRITER
+			if (video_writer_checked)
+			{
+				video_writer.release();
+			}
+			Ini_Video_Writer();
+#endif // VIDEO_WRITER
+
+#ifdef FEATURES_EXTRACTION_FILE_TXT
+			if (features_extraction_file_txt_checked)
+			{
+				fclose(features_extraction_file_txt);
+			}
+			Ini_Features_Extraction_File_Txt();
+#endif
 
 			// estimate FPS
 			/*if (FPS_count_frame == 0)
@@ -96,10 +106,13 @@ void Driving_Fatigue_Prediction()
 
 			//cap >> Frame_Original;
 			cap.read(Frame_Original);
+			frame_count = 0;
 
-			// Write the frame into the file 'outcpp.avi'
-			video.write(Frame_Original);
-
+#ifdef VIDEO_WRITER
+			// Write the frame into the file
+			video_writer.write(Frame_Original); 
+#endif // VIDEO_WRITER
+			
 #ifdef FACE_DETECTION_HAAR_CASCADE
 			// image processing for haar cascade face detection
 			Frame_ImageProcessing_Face_Detection_HaarCascade = ImageProcessing_Face_Detection_HaarCascade(Frame_Original);
@@ -201,6 +214,10 @@ void Driving_Fatigue_Prediction()
 
 			imshow("Driving Fatigue Prediction", Frame_Show);
 
+#ifdef FEATURES_EXTRACTION_FILE_TXT
+			fprintf(features_extraction_file_txt, "%d\t%.3f\t%.3f\t%d\t%.3f\t%.3f\t%.3f\n", frame_count, EAR_Feature, MAR_Feature, Eye_Blink_Count, Time_Processing_per_Frame, Time_Period_Total, FPS);
+#endif
+
 			// Press  ESC on keyboard to  exit
 			char c = (char)waitKey(1);
 			if (c == 27)
@@ -217,9 +234,12 @@ void Driving_Fatigue_Prediction()
 			
 			//cap >> Frame_Original;
 			cap.read(Frame_Original);
+			frame_count++;
 
-			// Write the frame into the file 'outcpp.avi'
-			video.write(Frame_Original);
+#ifdef VIDEO_WRITER
+			// Write the frame into the file
+			video_writer.write(Frame_Original);
+#endif // VIDEO_WRITER
 
 #ifdef FACE_TRACKING
 
@@ -339,6 +359,10 @@ void Driving_Fatigue_Prediction()
 
 			imshow("Driving Fatigue Prediction", Frame_Show);
 
+#ifdef FEATURES_EXTRACTION_FILE_TXT
+			fprintf(features_extraction_file_txt, "%d\t%.3f\t%.3f\t%d\t%.3f\t%.3f\t%.3f\n", frame_count, EAR_Feature, MAR_Feature, Eye_Blink_Count, Time_Processing_per_Frame, Time_Period_Total, FPS);
+#endif
+
 			// Press  ESC on keyboard to  exit
 			char c = (char)waitKey(1);
 			if (c == 27)
@@ -348,8 +372,14 @@ void Driving_Fatigue_Prediction()
 
 	// When everything done, release the video capture and write object
 	cap.release();
-	video.release();
-
+#ifdef VIDEO_WRITER
+	if (video_writer_checked)
+		video_writer.release();
+#endif // VIDEO_WRITER
+#ifdef FEATURES_EXTRACTION_FILE_TXT
+	if (features_extraction_file_txt_checked)
+		fclose(features_extraction_file_txt);
+#endif
 	// Closes all the windows
 	destroyAllWindows();
 
@@ -464,6 +494,15 @@ void Display(void)
 	return;
 }
 
+
+void Reset_Variables(void)
+{
+	Time_Period_Checked = false;
+	Time_Period_Total = 0.0;
+	Eye_Blink_Count = 0;
+
+	return;
+}
 //#define CAFFE
 //
 //const size_t inWidth = 300;
