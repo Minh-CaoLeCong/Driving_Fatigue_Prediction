@@ -1,6 +1,7 @@
 #ifndef DRIVING_FATIGUE_PREDICTION_H
 #define DRIVING_FATIGUE_PREDICTION_H
 
+#include <windows.h>
 #include "Preprocessor_Configuration.h"
 #include "OpenCV440.h"
 #include "Camera_Device.h"

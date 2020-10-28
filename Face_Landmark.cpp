@@ -17,8 +17,11 @@ void Face_Landmark_OpenCV_Ini()
 	FaceMark_OpenCV->loadModel(Face_Landmark_OpenCV_FileName_Path);
 	if (FaceMark_OpenCV.empty())
 	{
-		printf("[ERROR]: Could NOT load face landmark OpenCV .yaml file.\n");
+		//printf("[ERROR]: Could NOT load face landmark OpenCV .yaml file.\n");
+		printf("[" ANSI_COLOR_RED "ERROR" ANSI_COLOR_RESET "]: Could NOT load face landmark OpenCV .yaml file.\n");
 	}
+	else
+		printf("[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]: Loaded face landmark OpenCV .yaml file successfully.\n");
 
 	return;
 }
@@ -28,7 +31,10 @@ void Face_Landmark_OpenCV_Detection_Process(Mat imgin, vector<Rect> face_detecte
 	// Run landmark detector opencv
 	Face_Landmark_OpenCV_Detection_Check = FaceMark_OpenCV->fit(imgin, face_detected, landmarks_opencv);
 	if (!Face_Landmark_OpenCV_Detection_Check)
-		printf("[ERROR]: Could NOT detect landmarks.\n");
+	{
+		//printf("[ERROR]: Could NOT detect landmarks.\n");
+		printf("[" ANSI_COLOR_RED "ERROR" ANSI_COLOR_RESET "]: Could NOT detect landmarks.\n");
+	}
 	return;
 }
 

@@ -27,7 +27,12 @@ void Camera_Device_Ini()
 	cap.set(CAP_PROP_FRAME_HEIGHT, CAMERA_DEVICE_HEIGHT);
 
 	if (!cap.isOpened())
-		printf("[ERROR]: Could NOT open camera.\n");
+	{
+		//printf("[ERROR]: Could NOT open camera.\n");
+		printf("[" ANSI_COLOR_RED "ERROR" ANSI_COLOR_RESET "]: Could NOT open camera.\n");
+	}
+	else
+		printf("[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]: Initialized camera successfully.\n");
 
 	return;
 }

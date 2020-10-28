@@ -392,7 +392,7 @@ void Take_Sample(void)
 	{
 		printf("[INFOR]: STARTING TAKE SAMPLE PROCESSING: \n");
 		printf("[INFOR]: Now, please look at the camera and open your eyes in normal size \n");
-		printf("[NOTE]: There have to only one person in front of the camera \n");
+		printf("[" ANSI_COLOR_YELLOW "NOTE" ANSI_COLOR_RESET "]: There have to only one person in front of the camera \n");
 		printf("[INFOR]: If you're ready, press ENTER to continue. \n");
 		cin.get();
 	}
@@ -468,7 +468,8 @@ void Take_Sample(void)
 	MAR_Feature_Threshold = (MAR_Feature_Sample_Sum / (TAKE_SAMPLE_NUM_FRAMES - 1)) + 0.1;
 
 	printf("[INFOR] EAR_Threshold: %lf\tMAR_Threshold: %lf\n", EAR_Feature_Threshold, MAR_Feature_Threshold);
-	printf("[INFOR]: END TAKE SAMPLE PROCESSING.\n");
+	//printf("[INFOR]: END TAKE SAMPLE PROCESSING.\n");
+	printf("[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]: Took sample successfully.\n");
 }
 
 void Display(void)

@@ -14,8 +14,11 @@ void Face_Detection_HaarCascade_Ini()
 	const string HaarCascade_FaceDetection_FileName_Path = "./data/haarcascades/haarcascade_frontalface_default.xml";
 	if (!Face_Cascade.load(HaarCascade_FaceDetection_FileName_Path))
 	{
-		printf("[ERROR]: Could NOT load Haar Cascade xml file.\n");
+		//printf("[ERROR]: Could NOT load Haar Cascade xml file.\n");
+		printf("[" ANSI_COLOR_RED "ERROR" ANSI_COLOR_RESET "]: Could NOT load Haar Cascade xml file.\n");
 	}
+	else
+		printf("[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]: Loaded Haar Cascade xml file successfully.\n");
 
 	return;
 }
@@ -41,6 +44,8 @@ void Face_Detection_DNN_OpenCV_Caffe_Ini()
 	const string caffeWeightFile = "./models/res10_300x300_ssd_iter_140000_fp16.caffemodel";
 
 	net = readNetFromCaffe(caffeConfigFile, caffeWeightFile);
+
+	printf("[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]: Loaded DNN-CAFFE models successfully.\n");
 
 	return;
 }
