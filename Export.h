@@ -27,6 +27,13 @@ extern string features_extraction_file_txt_filename;
 extern string features_extraction_file_txt_extention;
 #endif // FEATURES_EXTRACTION_FILE_TXT
 
+#ifdef SAMPLE_FEATURES_FILE_TXT
+FILE *sample_features_file_txt;
+string sample_features_file_txt_path;
+string sample_features_file_txt_filename;
+string sample_features_file_txt_extention;
+#endif // SAMPLE_FEATURES_FILE_TXT
+
 extern string Current_DataTime_Str(void);
 
 #ifdef VIDEO_WRITER

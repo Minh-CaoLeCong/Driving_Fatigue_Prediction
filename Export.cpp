@@ -22,6 +22,13 @@ string features_extraction_file_txt_filename;
 string features_extraction_file_txt_extention = ".txt";
 #endif // FEATURES_EXTRACTION_FILE_TXT
 
+#ifdef SAMPLE_FEATURES_FILE_TXT
+FILE *sample_features_file_txt;
+string sample_features_file_txt_path;
+string sample_features_file_txt_filename;
+string sample_features_file_txt_extention = ".txt";
+#endif // SAMPLE_FEATURES_FILE_TXT
+
 string Current_DataTime_Str(void)
 {
 	time_t rawtime;
