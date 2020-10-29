@@ -24,6 +24,7 @@ string features_extraction_file_txt_extention = ".txt";
 
 #ifdef SAMPLE_FEATURES_FILE_TXT
 FILE *sample_features_file_txt;
+bool sample_features_file_txt_checked = false;
 string sample_features_file_txt_path;
 string sample_features_file_txt_filename;
 string sample_features_file_txt_extention = ".txt";
@@ -70,6 +71,20 @@ void Ini_Features_Extraction_File_Txt(void)
 	fprintf(features_extraction_file_txt, "frame_count\tEAR_Feature\tMAR_Feature\tEye_Blink_Count\tTime_Processing_per_Frame\tTime_Period_Total\tFPS\n");
 
 	features_extraction_file_txt_checked = true;
+
+	return;
+}
+#endif
+
+#ifdef SAMPLE_FEATURES_FILE_TXT
+void Ini_Sample_Features_File_Txt(void)
+{
+	sample_features_file_txt_path = "./features_extraction/";
+	sample_features_file_txt_filename = Current_DataTime_Str();
+	sample_features_file_txt_path = sample_features_file_txt_path + "SAMPLE_" + sample_features_file_txt_filename + sample_features_file_txt_extention;
+	sample_features_file_txt = fopen(sample_features_file_txt_path.c_str(), "wt");
+
+	sample_features_file_txt_checked = true;
 
 	return;
 }

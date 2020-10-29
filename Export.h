@@ -28,10 +28,11 @@ extern string features_extraction_file_txt_extention;
 #endif // FEATURES_EXTRACTION_FILE_TXT
 
 #ifdef SAMPLE_FEATURES_FILE_TXT
-FILE *sample_features_file_txt;
-string sample_features_file_txt_path;
-string sample_features_file_txt_filename;
-string sample_features_file_txt_extention;
+extern FILE *sample_features_file_txt;
+extern bool sample_features_file_txt_checked;
+extern string sample_features_file_txt_path;
+extern string sample_features_file_txt_filename;
+extern string sample_features_file_txt_extention;
 #endif // SAMPLE_FEATURES_FILE_TXT
 
 extern string Current_DataTime_Str(void);
@@ -42,6 +43,10 @@ extern void Ini_Video_Writer(void);
 
 #ifdef FEATURES_EXTRACTION_FILE_TXT
 extern void Ini_Features_Extraction_File_Txt(void);
+#endif
+
+#ifdef SAMPLE_FEATURES_FILE_TXT
+extern void Ini_Sample_Features_File_Txt(void);
 #endif
 
 #endif // !EXPORT_H

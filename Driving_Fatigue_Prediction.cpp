@@ -410,6 +410,10 @@ void Take_Sample(void)
 		}
 	}
 
+#ifdef SAMPLE_FEATURES_FILE_TXT
+	Ini_Sample_Features_File_Txt();
+#endif
+
 	// taking sample
 	printf("[INFOR]: Taking sample... \n");
 	for (int i = 0; i < TAKE_SAMPLE_NUM_FRAMES; i++)
@@ -460,7 +464,12 @@ void Take_Sample(void)
 
 			EAR_Feature_Sample_Sum += EAR_Feature_Sample[i];
 			MAR_Feature_Sample_Sum += MAR_Feature_Sample[i];
+
+#ifdef SAMPLE_FEATURES_FILE_TXT
+			fprintf(sample_features_file_txt, "[%d]\tEAR:\t%lf\tMAR:\t%lf\n", i, EAR_Feature_Sample[i], MAR_Feature_Sample[i]);
+#endif
 		}
+
 	}
 
 	// estimate eye aspect ratio threshold
@@ -469,7 +478,15 @@ void Take_Sample(void)
 
 	printf("[INFOR] EAR_Threshold: %lf\tMAR_Threshold: %lf\n", EAR_Feature_Threshold, MAR_Feature_Threshold);
 	//printf("[INFOR]: END TAKE SAMPLE PROCESSING.\n");
+
+#ifdef SAMPLE_FEATURES_FILE_TXT
+	fprintf(sample_features_file_txt, "EAR_Threshold:\t%lf\tMAR_Threshold:\t%lf\n", EAR_Feature_Threshold, MAR_Feature_Threshold);
+	if (sample_features_file_txt_checked)
+		fclose(sample_features_file_txt);
+#endif
+
 	printf("[" ANSI_COLOR_GREEN "DONE" ANSI_COLOR_RESET "]: Took sample successfully.\n");
+
 }
 
 void Display(void)
