@@ -188,11 +188,11 @@ void Driving_Fatigue_Prediction()
 				FPS_time_elapsed = difftime(FPS_End_time, FPS_Start_time);
 				FPS = FPS_NUM_FRAMES / FPS_time_elapsed;
 			}*/
-			Time_Execution_End1 = clock();
-			Time_Processing_per_Frame = double(Time_Execution_End1 - Time_Execution_Start1) / double(CLOCKS_PER_SEC);
-			FPS = 1.0 / Time_Processing_per_Frame;
+			//Time_Execution_End1 = clock();
+			//Time_Processing_per_Frame = double(Time_Execution_End1 - Time_Execution_Start1) / double(CLOCKS_PER_SEC);
+			//FPS = 1.0 / Time_Processing_per_Frame;
 
-			Time_Period_Total += Time_Processing_per_Frame;
+			//Time_Period_Total += Time_Processing_per_Frame;
 
 			//sprintf(Text_on_Frame, "S: %.1f", double(Time_Execution_Start1));
 			//putText(Frame_Show, Text_on_Frame, Point(2, 52), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 255), 2, 8, 0);
@@ -230,8 +230,13 @@ void Driving_Fatigue_Prediction()
 			{
 				time(&FPS_Start_time);
 			}*/
-			Time_Execution_Start1 = clock();
-			
+			//Time_Execution_Start1 = clock();
+			Time_Execution_End1 = clock();
+			Time_Processing_per_Frame = double(Time_Execution_End1 - Time_Execution_Start1) / double(CLOCKS_PER_SEC);
+			FPS = 1.0 / Time_Processing_per_Frame;
+			Time_Period_Total += Time_Processing_per_Frame;
+			Time_Execution_Start1 = Time_Execution_End1;
+
 			//cap >> Frame_Original;
 			cap.read(Frame_Original);
 			frame_count++;
@@ -329,12 +334,13 @@ void Driving_Fatigue_Prediction()
 				FPS_time_elapsed = difftime(FPS_End_time, FPS_Start_time);
 				FPS = FPS_NUM_FRAMES / FPS_time_elapsed;
 			}*/
-			Time_Execution_End1 = clock();
+			/*Time_Execution_End1 = clock();
 			Time_Processing_per_Frame = double(Time_Execution_End1 - Time_Execution_Start1) / double(CLOCKS_PER_SEC);
 			FPS = 1.0 / Time_Processing_per_Frame;
 
-			Time_Period_Total += Time_Processing_per_Frame;
+			Time_Period_Total += Time_Processing_per_Frame;*/
 
+			// check period
 			if (Time_Period_Total >= double(TIME_PERIOD))
 				Time_Period_Checked = true;
 
@@ -521,88 +527,3 @@ void Reset_Variables(void)
 
 	return;
 }
-//#define CAFFE
-//
-//const size_t inWidth = 300;
-//const size_t inHeight = 300;
-//const double inScaleFactor = 1.0;
-//const float confidenceThreshold = 0.7f;
-//const Scalar meanVal(104.0, 177.0, 123.0);
-//
-//const string caffeConfigFile = "./models/deploy.prototxt";
-//const string caffeWeightFile = "./models/res10_300x300_ssd_iter_140000_fp16.caffemodel";
-//
-//const string tensorflowConfigFile = "./models/opencv_face_detector.pbtxt";
-//const string tensorflowWeightFile = "./models/opencv_face_detector_uint8.pb";
-//
-//Mat frameOpenCVDNN;
-//
-//int main()
-//{
-//	// init camera device
-//	Camera_Device_Ini();
-//	// init haar cascade facedetection
-//	Face_Detection_HaarCascade_Ini();
-//	// init face landmark opencv
-//	Face_Landmark_OpenCV_Ini();
-//
-//#ifdef CAFFE
-//	Net net = readNetFromCaffe(caffeConfigFile, caffeWeightFile);
-//#else
-//	Net net = readNetFromTensorflow(tensorflowWeightFile, tensorflowConfigFile);
-//#endif
-//
-//	while (1)
-//	{
-//		Time_Execution_Start1 = clock();
-//
-//		cap.read(frameOpenCVDNN);
-//
-//		//frameOpenCVDNN = ImageProcessing_Face_Detection_HaarCascade(frameOpenCVDNN);
-//
-//		int frameHeight = frameOpenCVDNN.rows;
-//		int frameWidth = frameOpenCVDNN.cols;
-//
-//		//frameOpenCVDNN = ImageProcessing_Face_Detection_HaarCascade(frameOpenCVDNN);
-//
-//#ifdef CAFFE
-//		Mat inputBlob = blobFromImage(frameOpenCVDNN, inScaleFactor, Size(inWidth, inHeight), meanVal, false, false);
-//#else
-//		Mat inputBlob = blobFromImage(frameOpenCVDNN, inScaleFactor, Size(inWidth, inHeight), meanVal, true, false);
-//#endif
-//
-//		net.setInput(inputBlob, "data");
-//		Mat detection = net.forward("detection_out");
-//		Mat detectionMat(detection.size[2], detection.size[3], CV_32F, detection.ptr<float>());
-//		for (int i = 0; i < detectionMat.rows; i++)
-//		{
-//			float confidence = detectionMat.at<float>(i, 2);
-//			if (confidence > confidenceThreshold)
-//			{
-//				int x1 = static_cast<int>(detectionMat.at<float>(i, 3) * frameWidth);
-//				int y1 = static_cast<int>(detectionMat.at<float>(i, 4) * frameHeight);
-//				int x2 = static_cast<int>(detectionMat.at<float>(i, 5) * frameWidth);
-//				int y2 = static_cast<int>(detectionMat.at<float>(i, 6) * frameHeight);
-//				rectangle(frameOpenCVDNN, Point(x1, y1), Point(x2, y2), Scalar(0, 255, 0), 2, 4);
-//			}
-//		}
-//
-//		Time_Execution_End1 = clock();
-//		Time_Processing_per_Frame = double(Time_Execution_End1 - Time_Execution_Start1) / double(CLOCKS_PER_SEC);
-//		FPS = 1.0 / Time_Processing_per_Frame;
-//
-//		// display time processing per frame
-//		sprintf(Text_on_Frame, "T: %.3f", double(Time_Processing_per_Frame));
-//		putText(frameOpenCVDNN, Text_on_Frame, Point(2, 32), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
-//
-//		// display FPS on frame
-//		sprintf(Text_on_Frame, "FPS: %.2lf", FPS);
-//		putText(frameOpenCVDNN, Text_on_Frame, Point(2, 12), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 0), 2, 8, 0);
-//
-//
-//		imshow("test", frameOpenCVDNN);
-//		waitKey(1);
-//	}
-//
-//	return 0;
-//}
