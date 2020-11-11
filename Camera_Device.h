@@ -6,7 +6,7 @@
 #include <time.h>
 
 // Init
-#define CAMERA_DEVICE 0
+#define CAMERA_DEVICE 1
 #define CAMERA_DEVICE_WIDTH 320
 #define CAMERA_DEVICE_HEIGHT 240
 

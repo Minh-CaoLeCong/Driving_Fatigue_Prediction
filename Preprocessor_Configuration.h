@@ -11,22 +11,22 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 // face detection method
-//#define FACE_DETECTION_HAAR_CASCADE
-#define FACE_DETECTION_DNN_CAFFE_OPENCV
+#define FACE_DETECTION_HAAR_CASCADE
+//#define FACE_DETECTION_DNN_CAFFE_OPENCV
 //#define FACE_DETECTION_DNN_TENSORFLOW_OPENCV
 
 // face tracking
 //#define FACE_TRACKING
 
-// save video
-#define VIDEO_WRITER
-#define VIDEO_WRITER_FPS 10
-
-// save features extraction
-#define FEATURES_EXTRACTION_FILE_TXT
-
-// save sample features
-#define SAMPLE_FEATURES_FILE_TXT
+//// save video
+//#define VIDEO_WRITER
+//#define VIDEO_WRITER_FPS 15
+//
+//// save features extraction
+//#define FEATURES_EXTRACTION_FILE_TXT
+//
+//// save sample features
+//#define SAMPLE_FEATURES_FILE_TXT
 
 // show image processing
 #define FRAME_SHOW_IMAGE_PROCESSING 0	// 1: show image processing
